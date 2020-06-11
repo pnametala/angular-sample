@@ -1,0 +1,40 @@
+<div class="form-row d-flex align-items-end">
+  <div class="form-group col-4">
+    <label for="inputText">Please enter the text</label>
+    <input type="text" class="form-control" id="inputText" [(ngModel)]="matchInput.text">
+  </div>
+  <div class="form-group col-4">
+    <label for="inputSubtext">Please enter the subtext</label>
+    <input type="text" class="form-control" id="inputSubtext" [(ngModel)]="matchInput.subtext">
+  </div>
+  <div class="form-group col-4">
+    <button class="btn btn-primary" (click)="match()">Find Occurrences</button>
+  </div>
+</div>
+
+<div class="errors" *ngIf="matchErrors">
+  <div class="error" *ngFor="let error of matchErrors.Text">
+    <p class="alert alert-danger">{{ error }}</p>
+  </div>
+  <div class="error" *ngFor="let error of matchErrors.Subtext">
+    <p class="alert alert-danger">{{ error }}</p>
+  </div>
+</div>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">Index</th>
+    <th scope="col">Occurrence</th>
+    <th scope="col">Highlight</th>
+  </tr>
+  </thead>
+  <tbody *ngIf="matchResult" >
+  <tr *ngFor="let occurrence of matchResult.occurrences">
+    <th scope="row">{{ occurrence.index.toString() }}</th>
+    <td>{{ occurrence.value }}</td>
+    <td>
+      {{ matchResult.match.text.substr(0, occurrence.index) }}<span class="mark">{{ occurrence.value }}</span>{{ matchResult.match.text.substr(occurrence.index + occurrence.length, matchResult.match.text.length) }}
+    </td>
+  </tr>
+  </tbody>
+</table>
